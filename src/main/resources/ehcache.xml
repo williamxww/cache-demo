@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="shirocache">
+
+    <diskStore path="./ehcache" />
+
+    <!-- 登录记录缓存 锁定10分钟   timeToLiveSeconds="3600"-->
+    <cache name="passwordRetryCache"
+           eternal="false"
+           timeToLiveSeconds="600"
+           maxElementsInMemory="100000"
+           memoryStoreEvictionPolicy="LRU"
+           diskPersistent="false"
+           overflowToDisk="false">
+    </cache>
+
+</ehcache>

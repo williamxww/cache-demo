@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="propertyConfigurer" class="com.fiberhome.vapp.servicecenter.spring.VappPlaceHolderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:app.properties</value>
+                <value>classpath:common.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.apache.ignite.configuration.IgniteConfiguration">
+        <property name="peerClassLoadingEnabled" value="false"/>
+        <property name="gridLogger">
+            <bean class="org.apache.ignite.logger.slf4j.Slf4jLogger"/>
+        </property>
+        <property name="consistentId" value="${app.name}"/>
+        <property name="discoverySpi">
+            <bean class="org.apache.ignite.spi.discovery.tcp.TcpDiscoverySpi">
+                <!-- Initial local port to listen to. -->
+                <property name="localPort" value="${ignite.tcp.discovery.port}"/>
+                <!-- Changing local port range. This is an optional action. -->
+                <property name="localPortRange" value="${ignite.tcp.discovery.port.range}"/>
+                <!-- Setting up IP finder for this cluster -->
+                <property name="ipFinder">
+                    <bean class="org.apache.ignite.spi.discovery.tcp.ipfinder.vm.TcpDiscoveryVmIpFinder">
+                        <property name="addresses">
+                            <list>
+                                <value>${ignite.tcp.discovery.addresses}</value>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <!--
+            Explicitly configure TCP communication SPI changing local
+            port number for the nodes from the first cluster.
+        -->
+        <property name="communicationSpi">
+            <bean class="org.apache.ignite.spi.communication.tcp.TcpCommunicationSpi">
+                <property name="localPort" value="${ignite.tcp.communication.port}"/>
+                <property name="localPortRange" value="${ignite.tcp.communication.port.range}"/>
+            </bean>
+        </property>
+    </bean>
+</beans>
