@@ -5,11 +5,10 @@
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="propertyConfigurer" class="com.fiberhome.vapp.servicecenter.spring.VappPlaceHolderConfigurer">
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
                 <value>classpath:app.properties</value>
-                <value>classpath:common.properties</value>
             </list>
         </property>
     </bean>
